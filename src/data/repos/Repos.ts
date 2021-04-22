@@ -3,6 +3,7 @@ import MemberRepo from './MemberRepo';
 import DayRepo from './DayRepo';
 import TaskRepo from './TaskRepo';
 import DishRepo from './DishRepo';
+import AppointmentRepo from './AppointmentRepo';
 
 @Service()
 class Repos {
@@ -11,6 +12,7 @@ class Repos {
     public dayRepo: DayRepo,
     public taskRepo: TaskRepo,
     public dishRepo: DishRepo,
+    public appointmentRepo: AppointmentRepo,
   ) {}
 }
 

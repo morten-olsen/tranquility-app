@@ -10,7 +10,7 @@ import Dish from './models/Dish';
 const createConnection = async () => {
   const connection = await createSQLConnection({
     type: 'expo',
-    database: 'data2.db',
+    database: 'data4.db',
     driver: require('expo-sqlite'),
     entities: [
       Member,

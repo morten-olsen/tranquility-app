@@ -1,32 +1,29 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
-import { useRoute, RouteProp } from '@react-navigation/native';
 import Today from 'containers/day/Overview';
 import DateSelector from 'components/date/Selector';
 import TaskOverview from 'containers/tasks/Overview';
+import AppointmentsOverview from 'containers/appointments/Overview';
 import { getDayFromTime } from 'utils/day';
-
-type Props = RouteProp<{
-  TodayScreen: {
-    day?: string;
-  }
-}, 'TodayScreen'>;
 
 const Scroll = styled.ScrollView`
 `;
 
+const Inner = styled.View`
+  padding-top: 50px;
+`;
+
 const TodayScreen: React.FC = () => {
-  const { params = {}} = useRoute<Props>();
-  const current = params?.day
-    ? params.day
-    : new Date().getTime().toString();
-  const [day, setDay] = useState(getDayFromTime(parseInt(current)));
+  const [day, setDay] = useState(getDayFromTime(new Date().getTime()));
   return (
     <>
-      <DateSelector selected={day} onSelect={setDay} />
       <Scroll>
-        <Today day={day.toString()} />
-        <TaskOverview day={day} />
+        <Inner>
+          <DateSelector selected={day} onSelect={setDay} />
+          <Today day={day.toString()} />
+          <AppointmentsOverview day={day} />
+          <TaskOverview day={day} />
+        </Inner>
       </Scroll>
     </>
   );

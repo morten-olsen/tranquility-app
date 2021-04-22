@@ -2,7 +2,7 @@ import React, { useCallback, ReactNode } from 'react';
 import useForm from 'hooks/useForm';
 import { FormObjectProvider } from 'contexts/FormObject';
 
-type Add = () => void;
+type Add = (item: any) => void;
 
 interface Props {
   name: string;
@@ -14,6 +14,8 @@ interface Props {
 const InputList: React.FC<Props> = ({
   name,
   children,
+  header,
+  footer,
 }) => {
   const { value, setValue } = useForm(name);
   const list = (value || []) as any[];
@@ -26,11 +28,13 @@ const InputList: React.FC<Props> = ({
 
   return (
     <>
+      {!!header && header(add)}
       {list.map((item: any, index) => (
         <FormObjectProvider key={index} path={[name, index]}>
           {children(item)}
         </FormObjectProvider>
       ))}
+      {!!footer && footer(add)}
     </>
   );
 };

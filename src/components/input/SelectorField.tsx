@@ -65,6 +65,7 @@ const SelectorField: React.FC<Props<any>> = ({
         title={title}
         onClose={close}
         renderItem={renderItem}
+        selected={selected}
         getKey={getKey}
         items={items}
         onSelect={select}

@@ -3,7 +3,7 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import useRepos from '../../hooks/useRepos';
 import useAsync from 'hooks/useAsync';
 import TaskModel from 'data/models/Task';
-import Row, { Icon }from 'components/base/Row';
+import Row, { Icon, Cell }from 'components/base/Row';
 import { Title } from 'typography';
 
 interface Props {
@@ -35,6 +35,7 @@ const Today: React.FC<Props> = ({ day }) => {
   return (
     <>
       <Row
+        left={<Icon name="checkmark-done" />}
         right={(
           <Icon
             name="add-circle-outline"

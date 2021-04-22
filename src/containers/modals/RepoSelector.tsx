@@ -1,32 +1,32 @@
-import React, {ReactNode} from 'react';
+import React from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import Selector from 'components/input/SelectorField';
+import Selector from 'components/input/Selector';
 import Repos from 'data/repos/Repos';
 import { Props as RowProps } from 'components/base/Row';
 import useRepos from 'hooks/useRepos';
 import useAsync from 'hooks/useAsync';
-import useForm from 'hooks/useForm';
 
 interface Props {
-  name: string;
   repoName: keyof Repos;
-  label?: string;
   title?: string;
-  left?: ReactNode;
+  selected?: any;
   renderItem: (item: any) => RowProps;
+  visible: boolean;
+  onSelect: (item: any) => any
+  onClose: () => any;
 }
 
 const RepoSelector: React.FC<Props> = ({
-  name,
   repoName,
-  label,
-  left,
   title,
   renderItem,
+  selected,
+  onSelect,
+  visible,
+  onClose,
 }) => {
   const repos = useRepos();
   const repo = repos[repoName];
-  const { value, setValue } = useForm(name);
   const { result: items = [], rerun } = useAsync(async () => {
     const members = await repo.getAll();
     return members;
@@ -35,12 +35,11 @@ const RepoSelector: React.FC<Props> = ({
   return (
     <Selector
       title={title}
-      selected={value}
-      label={label}
-      left={left}
+      visible={visible}
+      onClose={onClose}
+      selected={selected}
       items={items}
-      onClear={() => setValue(null)}
-      onSelect={setValue}
+      onSelect={onSelect}
       renderItem={renderItem}
       getKey={(item) => item.id}
     />

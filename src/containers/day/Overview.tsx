@@ -1,11 +1,13 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import useRepos from '../../hooks/useRepos';
 import useAsync from 'hooks/useAsync';
 import { FormProvider } from 'contexts/Form';
 import MemberSelector from 'containers/input/MemberSelector';
+import InputText from 'containers/input/Text';
 import Day from 'data/models/Day';
-import Row, { Icon } from 'components/base/Row';
+import Row, { Cell, Icon } from 'components/base/Row';
+import RepoSelectorModal from 'containers/modals/RepoSelector';
 import List from 'containers/input/List';
 import {Title} from 'typography';
 
@@ -14,9 +16,9 @@ interface Props {
 }
 
 const Today: React.FC<Props> = ({ day }) => {
-  const navigation = useNavigation();
   const repos = useRepos();
   const { result, rerun } = useAsync(() => repos.dayRepo.get(day), [day, repos]);
+  const [dishSelectorVisible, setDishSelectorVisible] = useState(false);
 
   const save = useCallback(async (dayModel: Day) => {
     await repos.dayRepo.set({
@@ -49,6 +51,12 @@ const Today: React.FC<Props> = ({ day }) => {
       onSave={save}
       autoSave
     >
+      <InputText
+        label="Notes"
+        name="notes"
+        numberOfLines={3}
+        left={<Icon name="book-outline" />}
+      />
       <MemberSelector
         label="Dropoff"
         left={<Icon name="arrow-forward-circle-outline" />}
@@ -61,22 +69,39 @@ const Today: React.FC<Props> = ({ day }) => {
         title="How is picking up?"
         name="pickupKid"
       />
-      <Row
-        right={(
-          <Icon
-            name="add-circle-outline"
-            onPress={() => navigation.navigate('AddDishToDay', { day })}
-          />
+      <List
+        name="mealPlan"
+        header={(add) => (
+          <Row
+            left={<Icon name="fast-food-outline" />}
+            right={(
+              <Icon
+                name="add-circle-outline"
+                onPress={() => setDishSelectorVisible(true)}
+              />
+            )}
+          >
+        <Title>Meal plan</Title>
+        <RepoSelectorModal
+          repoName="dishRepo"
+          title="Select dish"
+          renderItem={(item: any) => ({
+            title: item.name,
+          })}
+          visible={dishSelectorVisible}
+          onSelect={(item) => {
+            add(item);
+          }}
+          onClose={() => setDishSelectorVisible(false)}
+        />
+      </Row>
         )}
       >
-        <Title>Meal plan</Title>
-      </Row>
-      <List name="mealPlan">
         {(dish) => (
           <Row
             key={dish.id}
             title={dish.name}
-            left={<Icon name="fast-food-outline" />}
+            left={<Icon name="chevron-forward" />}
             right={(
               <Icon
                 name="close-circle-outline"

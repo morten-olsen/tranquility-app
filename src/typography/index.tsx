@@ -7,10 +7,12 @@ export const Display = styled(Body)`
 `;
 
 export const Headline = styled(Body)`
+  font-size: 18px;
+  font-weight: bold;
 `;
 
 export const Title = styled(Body)`
-  font-size: 36px;
+  font-size: 28px;
   font-weight: bold;
 `;
 

@@ -35,7 +35,7 @@ const FormObjectProvider: React.FC<FormObjectProviderProps> = ({
 
   const setField = useCallback((field: string, fieldValue: any) => {
     value[field] = fieldValue;
-    form.set(form.value);
+    form.set({ ...form.value });
   }, [currentPath]);
 
   return (

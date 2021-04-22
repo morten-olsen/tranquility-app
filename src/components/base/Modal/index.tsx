@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components/native';
 import Row, { Icon } from 'components/base/Row';
+import { Headline } from 'typography';
 
 interface Props {
   title?: string;
@@ -40,9 +41,10 @@ const Modal: React.FC<Props> = ({
     <ModalWrapper transparent visible={visible} animationType="slide">
       <Wrapper>
         <Row
-          title={title}
           right={<Icon name="close" onPress={onClose} />}
-        />
+        >
+          <Headline>{title}</Headline>
+        </Row>
         {children}
       </Wrapper>
     </ModalWrapper>

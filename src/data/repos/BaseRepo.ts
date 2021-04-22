@@ -59,13 +59,16 @@ abstract class BaseRepo<T extends BaseModel> {
     if (entity.id) {
       await this.repo.save({
         ...entity,
+        updated: new Date().getTime(),
       });
     } else {
       const id = new Date().getTime().toString();
-      await this.repo.insert({
+      await this.repo.insert([{
         ...entity,
+        created: new Date().getTime(),
+        updated: new Date().getTime(),
         id,
-      });
+      }]);
     }
   };
 }

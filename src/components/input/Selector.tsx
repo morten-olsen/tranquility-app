@@ -1,11 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import styled from 'styled-components/native';
 import Modal from 'components/base/Modal';
-import Row, { Props as RowProps } from 'components/base/Row';
+import Row, { Icon, Props as RowProps } from 'components/base/Row';
 
 interface Props<T> {
   visible: boolean;
   title?: string;
+  selected?: string;
   onClose: () => void;
   renderItem: (item: T) => RowProps;
   getKey: (item: T) => string | number;
@@ -17,6 +18,7 @@ const List = styled.FlatList``;
 
 const Selector: React.FC<Props<any>> = ({
   visible,
+  selected,
   onClose,
   title,
   renderItem,
@@ -32,6 +34,7 @@ const Selector: React.FC<Props<any>> = ({
     }
   }, [onSelect, onClose]);
 
+  const selectedId = useMemo(() => selected ? getKey(selected) : undefined, [selected]);
   return (
     <Modal
       title={title}
@@ -40,13 +43,21 @@ const Selector: React.FC<Props<any>> = ({
     >
       <List
         data={items}
-        renderItem={({ item }) => (
-          <Row
-            {...renderItem(item)}
-            onPress={() => select(item)}
-            key={getKey(item)}
-          />
-        )}
+        renderItem={({ item }) => {
+          const id = getKey(item);
+          return (
+            <Row
+              {...renderItem(item)}
+              onPress={() => select(item)}
+              left={(
+                <Icon 
+                  name={selectedId === id ? "checkmark-circle" : "ellipse-outline"} 
+                />
+              )}
+              key={id}
+            />
+          );
+        }}
       />
     </Modal>
   );

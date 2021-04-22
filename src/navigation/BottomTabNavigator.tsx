@@ -4,7 +4,7 @@
  */
 
 import { Ionicons } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 
@@ -14,6 +14,7 @@ import TodayScreen from 'screens/Today';
 import MoreScreen from 'screens/More';
 import MemberListScreen from 'screens/members/List';
 import DishListScreen from 'screens/dish/List';
+import AppointmentListScreen from 'screens/appointments/List';
 
 export type BottomTabParamList = {
   Today: undefined;
@@ -28,28 +29,29 @@ export type MoreParamList = {
   MoreScreen: undefined;
   MemberListScreen: undefined;
   DishListScreen: undefined;
+  AppointmentListScreen: undefined;
 };
 
-const BottomTab = createBottomTabNavigator<BottomTabParamList>();
+const BottomTab = createDrawerNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
       initialRouteName="Today"
-      tabBarOptions={{ }}>
+    >
       <BottomTab.Screen
         name="Today"
         component={TodayNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="calendar-sharp" color={color} />,
+          //tabBarIcon: ({ color }) => <TabBarIcon name="calendar-sharp" color={color} />,
         }}
       />
       <BottomTab.Screen
         name="More"
         component={MoreNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ellipsis-horizontal-circle" color={color} />,
+          // tabBarIcon: ({ color }) => <TabBarIcon name="ellipsis-horizontal-circle" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -68,7 +70,7 @@ const TodayStack = createStackNavigator<TodayParamList>();
 
 function TodayNavigator() {
   return (
-    <TodayStack.Navigator>
+    <TodayStack.Navigator screenOptions={{ headerShown: false }}>
       <TodayStack.Screen
         name="TodayScreen"
         component={TodayScreen}
@@ -97,6 +99,11 @@ function MoreNavigator() {
         name="MemberListScreen"
         component={MemberListScreen}
         options={{ headerTitle: 'Members' }}
+      />
+      <MoreStack.Screen
+        name="AppointmentListScreen"
+        component={AppointmentListScreen}
+        options={{ headerTitle: 'Appointments' }}
       />
     </MoreStack.Navigator>
   );

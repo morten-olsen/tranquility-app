@@ -11,6 +11,7 @@ import { ColorSchemeName } from 'react-native';
 import TaskEdit from 'screens/tasks/Edit';
 import MemberEdit from 'screens/members/Edit';
 import DishEdit from 'screens/dish/Edit';
+import AppointmentEdit from 'screens/appointments/Edit';
 import AddDishToDayScreen from 'screens/day/AddDish';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import BottomTabNavigator from './BottomTabNavigator';
@@ -25,6 +26,9 @@ export type RootStackParamList = {
     id: string;
   };
   DishEdit: {
+    id: string;
+  };
+  AppointmentEdit: {
     id: string;
   };
   AddDishToDay: {
@@ -60,6 +64,7 @@ function RootNavigator() {
       <Stack.Screen name="TaskEdit" options={modalOptions} component={TaskEdit} />
       <Stack.Screen name="MemberEdit" options={modalOptions} component={MemberEdit} />
       <Stack.Screen name="DishEdit" options={modalOptions} component={DishEdit} />
+      <Stack.Screen name="AppointmentEdit" options={modalOptions} component={AppointmentEdit} />
       <Stack.Screen name="AddDishToDay" options={modalOptions} component={AddDishToDayScreen} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>

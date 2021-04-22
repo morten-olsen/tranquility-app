@@ -7,19 +7,19 @@ class Appointment extends BaseModel {
   @Column()
   public name!: string;
 
-  @Column()
-  public allDay!: boolean;
+  @Column({ nullable: true })
+  public allDay?: boolean;
 
   @Column()
-  public startTime!: number;
+  public startDate!: number;
 
   @Column()
-  public endTime!: number;
+  public endDate!: number;
 
-  @Column()
-  public location!: string;
+  @Column({ nullable: true })
+  public location?: string;
 
-  @Column()
+  @Column({ nullable: true })
   public description?: string;
 
   @ManyToMany(() => Member)

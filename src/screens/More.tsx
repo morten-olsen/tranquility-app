@@ -11,6 +11,10 @@ const MoreScreen: React.FC = () => {
         onPress={() => navigation.navigate('MemberListScreen')}
       />
       <Row
+        title="Appointments"
+        onPress={() => navigation.navigate('AppointmentListScreen')}
+      />
+      <Row
         title="Dishes"
         onPress={() => navigation.navigate('DishListScreen')}
       />

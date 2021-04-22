@@ -1,14 +1,14 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import styled from 'styled-components/native';
 import useForm from 'hooks/useForm';
 import Row from 'components/base/Row';
+import DateSelector from 'components/input/DateSelector';
+import { dateName } from 'utils/day';
 
 interface Props {
   label: string;
   name: string;
-  defaultValue?: any;
   left?: ReactNode;
-  numberOfLines?: number;
 }
 
 const Input = styled.TextInput`
@@ -20,22 +20,22 @@ const Input = styled.TextInput`
 const InputText: React.FC<Props> = ({
   name,
   label,
-  defaultValue,
   left,
-  numberOfLines,
 }) => {
   const { value, setValue } = useForm(name);
+  const [visible, setVisible] = useState(false);
 
   return (
     <Row
       subTitle={label}
+      title={value ? dateName(value) : 'Select'}
       left={left}
+      onPress={() => setVisible(true)}
     >
-      <Input
-        numberOfLines={numberOfLines}
-        multiline={(numberOfLines || 0) > 0}
-        value={value || defaultValue }
-        onChangeText={setValue}
+      <DateSelector
+        visible={visible}
+        onClose={() => setVisible(false)}
+        onSelect={setValue}
       />
     </Row>
   );

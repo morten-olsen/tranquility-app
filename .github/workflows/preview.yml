@@ -34,6 +34,12 @@ jobs:
 
       - name: Expo Publish Channel
         run: expo publish --non-interactive --release-channel pr${{ github.event.number }}
+        env:
+          SENTRY_ORG: "${{ secrets.SENTRY_ORG }}"
+          SENTRY_PROJECT: "${{ secrets.SENTRY_PROJECT }}"
+          SENTRY_AUTH_TOKEN: "${{ secrets.SENTRY_AUTH_TOKEN }}"
+          SENTRY_DSN: "${{ secrets.SENTRY_DSN }}"
+
       - name: Add Comment To PR
         uses: mshick/add-pr-comment@v1
         env:

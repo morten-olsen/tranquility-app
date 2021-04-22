@@ -37,6 +37,7 @@
     "react-native-screens": "~3.0.0",
     "react-native-web": "~0.13.12",
     "reflect-metadata": "^0.1.13",
+    "sentry-expo": "^3.1.0",
     "styled-components": "^5.2.3",
     "typedi": "^0.10.0",
     "typeorm": "^0.2.32"

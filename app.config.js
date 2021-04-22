@@ -1,4 +1,4 @@
-{
+module.exports = {
   "expo": {
     "name": "Tranquility",
     "entryPoint": "src/index.ts",
@@ -31,6 +31,18 @@
     "web": {
       "favicon": "./assets/images/favicon.png"
     },
-    "description": ""
+    "description": "",
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": process.env.SENTRY_ORG,
+            "project": process.env.SENTRY_PROJECT,
+            "authToken": process.env.SENTRY_AUTH_TOKEN
+          }
+        }
+      ]
+    }
   }
 }

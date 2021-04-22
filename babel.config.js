@@ -20,6 +20,11 @@ module.exports = function(api) {
         },
       }],
       'react-native-reanimated/plugin',
+      ['transform-inline-environment-variables', {
+        include: [
+          'SENTRY_DSN',
+        ],
+      }],
     ],
   };
 };

@@ -1,13 +1,12 @@
 import Modal from 'components/base/Modal';
 import React from 'react';
 import { Calendar } from 'react-native-calendars';
-import { formatDay, getDayFromTime } from 'utils/day';
 
 interface Props {
-  selected?: number;
+  selected?: string;
   visible: boolean;
   onClose: () => any;
-  onSelect: (day: number) => any;
+  onSelect: (day: string) => any;
 }
 
 const DateSelector: React.FC<Props> = ({
@@ -22,8 +21,12 @@ const DateSelector: React.FC<Props> = ({
       visible={visible}
     >
       <Calendar
+        current={selected}
+        markedDates={selected ? {
+          [selected]: {selected: true, selectedColor: 'blue'},
+        }: undefined}
         onDayPress={(day) => {
-          onSelect(getDayFromTime(day.timestamp));
+          onSelect(day.dateString);
           onClose();
         }}
       />

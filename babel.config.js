@@ -1,3 +1,7 @@
+const path = require('path');
+require('dotenv').config({
+  path: path.resolve(__dirname, '.secrets'),
+});
 module.exports = function(api) {
   api.cache(true);
   return {
@@ -15,6 +19,7 @@ module.exports = function(api) {
           hooks: './src/hooks',
           navigation: './src/navigation',
           screens: './src/screens',
+          services: './src/services',
           typography: './src/typography',
           utils: './src/utils',
         },

@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from 'react';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import useRepos from '../../hooks/useRepos';
 import useAsync from 'hooks/useAsync';
 import { FormProvider } from 'contexts/Form';
 import MemberSelector from 'containers/input/MemberSelector';
 import InputText from 'containers/input/Text';
 import Day from 'data/models/Day';
-import Row, { Cell, Icon } from 'components/base/Row';
+import Row, { Icon } from 'components/base/Row';
 import RepoSelectorModal from 'containers/modals/RepoSelector';
 import List from 'containers/input/List';
 import {Title} from 'typography';

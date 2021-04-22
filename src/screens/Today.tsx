@@ -4,7 +4,7 @@ import Today from 'containers/day/Overview';
 import DateSelector from 'components/date/Selector';
 import TaskOverview from 'containers/tasks/Overview';
 import AppointmentsOverview from 'containers/appointments/Overview';
-import { getDayFromTime } from 'utils/day';
+import useServices from 'hooks/useServices';
 
 const Scroll = styled.ScrollView`
 `;
@@ -14,7 +14,8 @@ const Inner = styled.View`
 `;
 
 const TodayScreen: React.FC = () => {
-  const [day, setDay] = useState(getDayFromTime(new Date().getTime()));
+  const { timeService } = useServices();
+  const [day, setDay] = useState(timeService.today);
   return (
     <>
       <Scroll>

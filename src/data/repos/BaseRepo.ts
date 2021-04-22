@@ -2,8 +2,9 @@ import { Service, Inject } from 'typedi';
 import { Connection, FindManyOptions, Repository} from 'typeorm';
 import BaseModel from '../models/BaseModel';
 
-interface Options {
-  relations?: string[]
+interface Options<T extends BaseModel> {
+  relations?: string[];
+  setupNewEntity?: (entity: T, id: string) => T;
 }
 
 @Service()
@@ -12,9 +13,9 @@ abstract class BaseRepo<T extends BaseModel> {
   private _connection!: Connection;
   private _repo?: Repository<T>;
   private _entity: new () => T;
-  private _options: Options;
+  private _options: Options<T>;
 
-  constructor(entity: new () => T, options: Options = {}) {
+  constructor(entity: new () => T, options: Options<T> = {}) {
     this._entity = entity;
     this._options = options;
   }
@@ -36,6 +37,10 @@ abstract class BaseRepo<T extends BaseModel> {
     });
     if (!item) {
       item = new this._entity();
+      item.id = new Date().getTime().toString();
+      if (this._options.setupNewEntity) {
+        item = this._options.setupNewEntity(item, id);
+      }
       item.isNew = true;
     }
     return item;
@@ -56,20 +61,24 @@ abstract class BaseRepo<T extends BaseModel> {
   };
 
   public set = async (entity: Partial<T>) => {
-    if (entity.id) {
+    console.log('e', entity);
+    if (entity.isNew) {
+      entity.created = new Date().getUTCDate();
+    }
+    entity.updated = new Date().getUTCDate();
+    await this.repo.save(entity);
+    /*if (!entity.isNew) {
       await this.repo.save({
         ...entity,
         updated: new Date().getTime(),
       });
     } else {
-      const id = new Date().getTime().toString();
       await this.repo.insert([{
         ...entity,
         created: new Date().getTime(),
         updated: new Date().getTime(),
-        id,
       }]);
-    }
+    }*/
   };
 }
 

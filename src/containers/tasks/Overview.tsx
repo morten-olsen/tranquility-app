@@ -3,11 +3,11 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import useRepos from '../../hooks/useRepos';
 import useAsync from 'hooks/useAsync';
 import TaskModel from 'data/models/Task';
-import Row, { Icon, Cell }from 'components/base/Row';
+import Row, { Icon }from 'components/base/Row';
 import { Title } from 'typography';
 
 interface Props {
-  day: number;
+  day: string;
 }
 
 const Today: React.FC<Props> = ({ day }) => {

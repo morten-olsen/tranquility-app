@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Title } from 'typography';
+import useServices from 'hooks/useServices';
 import Row, { Icon } from 'components/base/Row';
 import DateSelectorModal from 'components/input/DateSelector';
-import { dateName } from 'utils/day';
 
 interface Props {
-  selected: number;
-  onSelect: (day: number) => any;
+  selected: string;
+  onSelect: (day: string) => any;
 }
 
 const DateSelector: React.FC<Props> = ({
@@ -16,6 +16,7 @@ const DateSelector: React.FC<Props> = ({
 }) => {
   const [visible, setVisible] = useState(false);
   const navigation = useNavigation();
+  const { timeService } = useServices();
 
   return (
     <>
@@ -24,7 +25,7 @@ const DateSelector: React.FC<Props> = ({
         right={<Icon name="calendar-sharp" />}
         left={<Icon name="menu" onPress={navigation.toggleDrawer} />}
       >
-        <Title>{dateName(selected)}</Title>
+        <Title>{selected}</Title>
       </Row>
       <DateSelectorModal
         selected={selected}

@@ -6,7 +6,7 @@ import Row, { Icon } from 'components/base/Row';
 import { Title } from 'typography';
 
 interface Props {
-  day: number;
+  day: string;
 }
 
 const Today: React.FC<Props> = ({ day }) => {

@@ -11,6 +11,10 @@ class DayRepo extends BaseRepo<Day> {
         'dropoffKid',
         'mealPlan',
       ],
+      setupNewEntity: (item, id) => {
+        item.id = id;
+        return item;
+      },
     });
   }
 }

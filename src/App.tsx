@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import { Platform, KeyboardAvoidingView } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ReposProvider } from './contexts/Repos';
 import { ServiceProvider } from './contexts/ServiceContext';
@@ -16,14 +17,16 @@ export default function App() {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
-        <ReposProvider>
-          <ServiceProvider>
-            <Navigation colorScheme={colorScheme} />
-            <StatusBar />
-          </ServiceProvider>
-        </ReposProvider>
-      </SafeAreaProvider>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+        <SafeAreaProvider>
+          <ReposProvider>
+            <ServiceProvider>
+              <Navigation colorScheme={colorScheme} />
+              <StatusBar />
+            </ServiceProvider>
+          </ReposProvider>
+        </SafeAreaProvider>
+      </KeyboardAvoidingView>
     );
   }
 }

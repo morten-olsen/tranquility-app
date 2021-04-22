@@ -25,7 +25,7 @@ const DateSelector: React.FC<Props> = ({
         right={<Icon name="calendar-sharp" />}
         left={<Icon name="menu" onPress={navigation.toggleDrawer} />}
       >
-        <Title>{selected}</Title>
+        <Title>{timeService.formatDate(selected)}</Title>
       </Row>
       <DateSelectorModal
         selected={selected}

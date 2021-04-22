@@ -2,6 +2,8 @@ import React, { ReactNode } from 'react';
 import styled from 'styled-components/native';
 import Row, { Icon } from 'components/base/Row';
 import { Headline } from 'typography';
+import { Platform, StyleSheet } from 'react-native';
+import { BlurView } from 'expo-blur';
 
 interface Props {
   title?: string;
@@ -14,10 +16,8 @@ const ModalWrapper = styled.Modal`
   background: transparent;
 `;
 
-const Wrapper = styled.View`
-  margin-top: 220px;
-  margin-bottom: -20px;
-  padding-bottom: 20px;
+const Wrapper = styled.KeyboardAvoidingView`
+  margin-top: 120px;
   background: #fff;
   shadow-offset: 0px;
   shadow-opacity: 1;
@@ -26,6 +26,12 @@ const Wrapper = styled.View`
   border-radius: 20px;
   flex: 1;
 `; 
+
+const BottomFix =  styled.View`
+  padding-bottom: 20px;
+  margin-bottom: -20px;
+  flex: 1;
+`;
 
 const Modal: React.FC<Props> = ({
   children,
@@ -39,14 +45,18 @@ const Modal: React.FC<Props> = ({
 
   return (
     <ModalWrapper transparent visible={visible} animationType="slide">
-      <Wrapper>
-        <Row
-          right={<Icon name="close" onPress={onClose} />}
-        >
-          <Headline>{title}</Headline>
-        </Row>
-        {children}
-      </Wrapper>
+      <BlurView intensity={90} style={[StyleSheet.absoluteFill]}>
+        <Wrapper behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+          <BottomFix>
+            <Row
+              right={<Icon name="close" onPress={onClose} />}
+            >
+              <Headline>{title}</Headline>
+            </Row>
+            {children}
+          </BottomFix>
+        </Wrapper>
+      </BlurView>
     </ModalWrapper>
   );
 };

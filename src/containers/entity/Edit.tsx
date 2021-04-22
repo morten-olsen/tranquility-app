@@ -1,18 +1,24 @@
-import React, { ReactNode, useCallback } from 'react';
+import React, { ReactNode, useCallback, useContext } from 'react';
 import styled from 'styled-components/native';
 import { FormProvider } from 'contexts/Form';
 import { useNavigation } from '@react-navigation/native';
 import Repo from 'data/repos/BaseRepo';
 import useAsync from 'hooks/useAsync';
+import FormDataContext from 'contexts/FormData';
 import Modal from 'components/base/Modal';
 import Save from 'containers/input/Save';
 import Delete from 'containers/input/Delete';
 
+type ChildFN = (value: any) => ReactNode;
 interface Props {
-  children: ReactNode;
+  children: ChildFN | ReactNode;
   repo: Repo<any>;
   id?: string;
   closeRoute?: string;
+}
+
+interface ChildProps {
+  fn: ChildFN;
 }
 
 const ScrollView = styled.ScrollView`
@@ -28,6 +34,11 @@ const ButtonWell = styled.View`
   align-items: center;
   justify-content: flex-end;
 `;
+
+const ChildComponent: React.FC<ChildProps> = ({ fn }) => {
+  const { value } = useContext(FormDataContext);
+  return fn(value);
+}
 
 const Edit: React.FC<Props> = ({
   children,
@@ -67,10 +78,10 @@ const Edit: React.FC<Props> = ({
         onRemove={remove}
       >
         <ScrollView>
-          {children}
+          {children instanceof Function ? <ChildComponent fn={children} /> : children }
         </ScrollView>
         <ButtonWell>
-          <Delete />
+          {!result.isNew && <Delete />}
           <Save />
         </ButtonWell>
       </FormProvider>

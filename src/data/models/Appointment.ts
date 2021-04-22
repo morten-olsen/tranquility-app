@@ -17,6 +17,12 @@ class Appointment extends BaseModel {
   public endDate!: number;
 
   @Column({ nullable: true })
+  public startTime?: number;
+
+  @Column({ nullable: true })
+  public endTime?: number;
+
+  @Column({ nullable: true })
   public location?: string;
 
   @Column({ nullable: true })

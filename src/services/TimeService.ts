@@ -45,18 +45,19 @@ class TimeService {
     return `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate()}`;
   };
 
-  public formatDate = (day: string) => {
+  public formatDate = (day: string | number | Date) => {
     const date = new Date(day);
+    const current = this.getDateString(date.getTime());
     const today = this.getDateString(new Date().getTime());
     const tomorrow = this.getDateString(new Date().getTime() + DAY);
     const nextWeek = this.getDateString(new Date().getTime() + (DAY * 6));
-    if (day === today) {
+    if (current === today) {
       return 'Today';
     }
-    if (day === tomorrow) {
+    if (current === tomorrow) {
       return 'Tomorrow';
     }
-    if (day < nextWeek && day > today) {
+    if (current < nextWeek && day > today) {
       return DAY_NAMES[date.getDay()];
     }
     return `${date.getDate()} ${MONTH_NAMES[date.getMonth()]}`;

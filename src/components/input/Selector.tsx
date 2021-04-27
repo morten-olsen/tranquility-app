@@ -12,9 +12,22 @@ interface Props<T> {
   getKey: (item: T) => string | number;
   items: T[];
   onSelect?: (item: T) => any;
+  search?: string;
+  onSearch?: (input: string) => any;
+  onCreate?: (input: string) => Promise<any>;
 }
 
 const List = styled.FlatList``;
+
+const SearchInput = styled.TextInput`
+  background: #eee;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+`;
+
+const AddButton = styled.Button`
+`;
 
 const Selector: React.FC<Props<any>> = ({
   visible,
@@ -25,6 +38,9 @@ const Selector: React.FC<Props<any>> = ({
   getKey,
   items,
   onSelect,
+  search,
+  onSearch,
+  onCreate,
 }) => {
 
   const select = useCallback((item: any) => {
@@ -34,6 +50,10 @@ const Selector: React.FC<Props<any>> = ({
     }
   }, [onSelect, onClose]);
 
+  const create = useCallback(() => {
+    onCreate!(search!);
+  }, [search, onCreate]);
+
   const selectedId = useMemo(() => selected ? getKey(selected) : undefined, [selected]);
   return (
     <Modal
@@ -41,6 +61,17 @@ const Selector: React.FC<Props<any>> = ({
       visible={visible}
       onClose={onClose}
     >
+      <Row
+        subTitle="Search or Add"
+      >
+        <SearchInput
+          placeholder="Name"
+          value={search}
+          onChangeText={onSearch}
+          placeholderTextColor="#999"
+        />
+      </Row>
+      {!!search && <AddButton onPress={create} title={`Add ${search}`} />}
       <List
         data={items}
         renderItem={({ item }) => {

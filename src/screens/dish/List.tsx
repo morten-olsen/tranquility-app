@@ -14,7 +14,7 @@ const MemberList: React.FC = () => {
       getKey={(member: Member) => member.id}
       addItem={() => navigation.navigate('DishEdit')}
       renderItem={(member: Member) => ({
-        title: member.name,
+        title: member.name || '[No name]',
       })}
       onPress={(member: Member) => {
         navigation.navigate('DishEdit', {

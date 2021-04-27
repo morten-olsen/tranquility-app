@@ -3,16 +3,16 @@ import { Service } from 'typedi';
 export const SECOND = 1000;
 export const MINUTE = 60 * SECOND;
 export const HOUR = 60 * MINUTE;
-export const DAY = 26 * HOUR;
+export const DAY = 24 * HOUR;
 
 const DAY_NAMES = [
+  'Sunday',
   'Monday',
   'Tueday',
   'Wednesday',
   'Thursday',
   'Friday',
   'Saturday',
-  'Sunday',
 ];
 
 const MONTH_NAMES = [

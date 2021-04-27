@@ -17,6 +17,7 @@ interface Props {
 
 const Today: React.FC<Props> = ({ day }) => {
   const repos = useRepos();
+  const [dishSearch, setDishSearch] = useState('');
   const { result, rerun } = useAsync(() => repos.dayRepo.get(day), [day, repos]);
   const [dishSelectorVisible, setDishSelectorVisible] = useState(false);
 
@@ -27,6 +28,10 @@ const Today: React.FC<Props> = ({ day }) => {
     });
     rerun();
   }, [repos.dayRepo, day, rerun]);
+
+  const dishFilter = useCallback((input: string, items: any[]) => {
+    return items.filter(i => i.name.toLowerCase().includes(input.toLowerCase()));
+  }, []);
 
   const removeDish = useCallback(async (id: string) => {
     if (!result) return;
@@ -92,7 +97,11 @@ const Today: React.FC<Props> = ({ day }) => {
           onSelect={(item) => {
             add(item);
           }}
+          filter={dishFilter}
           onClose={() => setDishSelectorVisible(false)}
+          search={dishSearch}
+          onSearch={setDishSearch}
+          create={(name) => ({ name: name.trim(), includesKid: false })}
         />
       </Row>
         )}

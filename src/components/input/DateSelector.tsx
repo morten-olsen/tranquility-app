@@ -1,6 +1,6 @@
 import Modal from 'components/base/Modal';
 import React from 'react';
-import { Calendar } from 'react-native-calendars';
+import { CalendarList as Calendar } from 'react-native-calendars';
 
 interface Props {
   selected?: string;
@@ -22,6 +22,8 @@ const DateSelector: React.FC<Props> = ({
     >
       <Calendar
         current={selected}
+        enableSwipeMonths={true}
+        showWeekNumbers={true}
         markedDates={selected ? {
           [selected]: {selected: true, selectedColor: 'blue'},
         }: undefined}

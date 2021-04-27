@@ -62,6 +62,9 @@ abstract class BaseRepo<T extends BaseModel> {
 
   public set = async (entity: Partial<T>) => {
     console.log('e', entity);
+    if (!entity.id) {
+      entity.id = new Date().getTime().toString();
+    }
     if (entity.isNew) {
       entity.created = new Date().getUTCDate();
     }

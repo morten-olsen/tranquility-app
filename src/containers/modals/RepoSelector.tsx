@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import Selector from 'components/input/Selector';
 import Repos from 'data/repos/Repos';
@@ -14,6 +14,10 @@ interface Props {
   visible: boolean;
   onSelect: (item: any) => any
   onClose: () => any;
+  search?: string;
+  onSearch?: (input: string) => any;
+  create?: (input: string) => any;
+  filter?: (input: string, items: any[]) => any;
 }
 
 const RepoSelector: React.FC<Props> = ({
@@ -24,6 +28,10 @@ const RepoSelector: React.FC<Props> = ({
   onSelect,
   visible,
   onClose,
+  search,
+  onSearch,
+  create: doCreate,
+  filter,
 }) => {
   const repos = useRepos();
   const repo = repos[repoName];
@@ -32,16 +40,42 @@ const RepoSelector: React.FC<Props> = ({
     return members;
   }, [repo]);
   useFocusEffect(rerun);
+  const filtered = useMemo(() => {
+    if (!filter || !search) {
+      return items;
+    }
+    return filter(search, items);
+  }, [items, filter, search]);
+  const create = useCallback(async (name: string) => {
+    if (!doCreate) {
+      return;
+    }
+    const item = doCreate(name);
+    await repo.set({
+      ...item,
+      isNew: true,
+    });
+    rerun();
+  }, [repo]);
+  const select = useCallback((item: any) => {
+    if (search && onSearch) {
+      onSearch('');
+    }
+    onSelect(item);
+  }, [onSelect, search, onSearch]);
   return (
     <Selector
       title={title}
       visible={visible}
       onClose={onClose}
       selected={selected}
-      items={items}
-      onSelect={onSelect}
+      items={filtered}
+      onSelect={select}
       renderItem={renderItem}
       getKey={(item) => item.id}
+      search={search}
+      onSearch={onSearch}
+      onCreate={create}
     />
   );
 };
